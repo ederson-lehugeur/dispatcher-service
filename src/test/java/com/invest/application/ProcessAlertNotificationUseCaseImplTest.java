@@ -55,9 +55,9 @@ class ProcessAlertNotificationUseCaseImplTest {
         useCase.execute(event);
 
         String expectedSubject = emailContentBuilder.buildSubject(event);
-        String expectedBody = emailContentBuilder.buildBody(event);
+        String expectedBody = emailContentBuilder.buildHtmlBody(event);
 
-        verify(emailGateway).send(eq(data.email()), eq(expectedSubject), eq(expectedBody));
+        verify(emailGateway).send(eq(data.email()), eq(expectedSubject), eq(expectedBody), eq(true));
     }
 
     @Test
@@ -68,9 +68,9 @@ class ProcessAlertNotificationUseCaseImplTest {
         useCase.execute(event);
 
         String expectedSubject = emailContentBuilder.buildSubject(event);
-        String expectedBody = emailContentBuilder.buildBody(event);
+        String expectedBody = emailContentBuilder.buildHtmlBody(event);
 
-        verify(emailGateway).send(eq(data.email()), eq(expectedSubject), eq(expectedBody));
+        verify(emailGateway).send(eq(data.email()), eq(expectedSubject), eq(expectedBody), eq(true));
     }
 
     @Test
@@ -80,7 +80,7 @@ class ProcessAlertNotificationUseCaseImplTest {
         useCase.execute(event);
 
         verify(emailContentBuilder).buildSubject(event);
-        verify(emailContentBuilder).buildBody(event);
+        verify(emailContentBuilder).buildHtmlBody(event);
     }
 
     @Test

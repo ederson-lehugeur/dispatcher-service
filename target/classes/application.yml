@@ -2,6 +2,9 @@ spring:
   application:
     name: dispatcher-service
 
+  jackson:
+    time-zone: ${TZ:America/Sao_Paulo}
+
   # RabbitMQ Configuration (Req 7.1)
   rabbitmq:
     host: ${SPRING_RABBITMQ_HOST:localhost}
@@ -17,7 +20,7 @@ spring:
 
   # MySQL Datasource Configuration (Req 2.1, 2.2, 2.3)
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3307}/${MYSQL_DATABASE:investalert}
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3307}/${MYSQL_DATABASE:investalert}?useUnicode=true&characterEncoding=UTF-8
     username: ${MYSQL_USERNAME:root}
     password: ${MYSQL_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver

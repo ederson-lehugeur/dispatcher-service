@@ -26,7 +26,10 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -189,5 +192,30 @@ class ProcessAlertNotificationUseCaseProperties {
                 Arbitraries.of(ComparisonOperator.values()),
                 positiveDecimals()
         ).as(AlertCondition::new);
+    }
+
+    @Property(tries = 100)
+    @Tag("Feature: investment-alert-email-template, Property 9: Use case orchestration uses HTML builder and passes isHtml=true")
+    void useCaseOrchestrationUsesHtmlBuilderAndPassesIsHtmlTrue(
+            @ForAll("alertTriggeredEventsForProperty9") AlertTriggeredEvent event) {
+
+        EmailContentBuilder emailContentBuilder = spy(new EmailContentBuilder());
+        EmailGateway emailGateway = mock(EmailGateway.class);
+        AlertRepository alertRepository = mock(AlertRepository.class);
+        RuleRepository ruleRepository = mock(RuleRepository.class);
+
+        var useCase = new ProcessAlertNotificationUseCaseImpl(
+                emailContentBuilder, emailGateway, alertRepository, ruleRepository);
+
+        useCase.execute(event);
+
+        verify(emailContentBuilder).buildHtmlBody(event);
+        verify(emailContentBuilder, never()).buildBody(event);
+        verify(emailGateway).send(eq(event.data().email()), anyString(), any(), eq(true));
+    }
+
+    @Provide
+    Arbitrary<AlertTriggeredEvent> alertTriggeredEventsForProperty9() {
+        return alertIds().flatMap(this::buildEvent);
     }
 }

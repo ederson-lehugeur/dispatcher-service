@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -68,7 +69,8 @@ class AlertNotificationListenerIntegrationTest {
         verify(emailGateway).send(
                 eq("user@example.com"),
                 eq("Alerta de Investimento - FII CSHG Logistica (HGLG11)"),
-                anyString()
+                anyString(),
+                eq(false)
         );
         verify(channel).basicAck(deliveryTag, false);
     }
@@ -81,7 +83,7 @@ class AlertNotificationListenerIntegrationTest {
 
         alertNotificationListener.onMessage(event, channel, deliveryTag);
 
-        verify(emailGateway, never()).send(anyString(), anyString(), anyString());
+        verify(emailGateway, never()).send(anyString(), anyString(), anyString(), anyBoolean());
         verify(channel).basicAck(deliveryTag, false);
     }
 
@@ -93,7 +95,7 @@ class AlertNotificationListenerIntegrationTest {
 
         alertNotificationListener.onMessage(event, channel, deliveryTag);
 
-        verify(emailGateway, never()).send(anyString(), anyString(), anyString());
+        verify(emailGateway, never()).send(anyString(), anyString(), anyString(), anyBoolean());
         verify(channel).basicAck(deliveryTag, false);
     }
 
@@ -105,7 +107,7 @@ class AlertNotificationListenerIntegrationTest {
 
         alertNotificationListener.onMessage(event, channel, deliveryTag);
 
-        verify(emailGateway, never()).send(anyString(), anyString(), anyString());
+        verify(emailGateway, never()).send(anyString(), anyString(), anyString(), anyBoolean());
         verify(channel).basicAck(deliveryTag, false);
     }
 
@@ -116,7 +118,7 @@ class AlertNotificationListenerIntegrationTest {
         long deliveryTag = 5L;
 
         doThrow(new RuntimeException("SMTP connection refused"))
-                .when(emailGateway).send(anyString(), anyString(), anyString());
+                .when(emailGateway).send(anyString(), anyString(), anyString(), anyBoolean());
 
         alertNotificationListener.onMessage(event, channel, deliveryTag);
 
@@ -137,7 +139,8 @@ class AlertNotificationListenerIntegrationTest {
         verify(emailGateway).send(
                 eq("investor@example.com"),
                 eq("Alerta de Investimento - Banco do Brasil (BBAS3)"),
-                anyString()
+                anyString(),
+                eq(false)
         );
         verify(channel).basicAck(deliveryTag, false);
     }

@@ -28,9 +28,9 @@ public class ProcessAlertNotificationUseCaseImpl implements ProcessAlertNotifica
         log.info("M=execute, I=Processing alert notification, alertId={}, email={}", data.alertId(), data.email());
 
         String subject = emailContentBuilder.buildSubject(event);
-        String body = emailContentBuilder.buildBody(event);
+        String htmlBody = emailContentBuilder.buildHtmlBody(event);
 
-        emailGateway.send(data.email(), subject, body);
+        emailGateway.send(data.email(), subject, htmlBody, true);
 
         log.info("M=execute, I=Alert notification sent successfully, alertId={}", data.alertId());
 

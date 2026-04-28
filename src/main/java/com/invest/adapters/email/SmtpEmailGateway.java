@@ -1,9 +1,11 @@
 package com.invest.adapters.email;
 
 import com.invest.domain.ports.out.EmailGateway;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,12 +21,17 @@ public class SmtpEmailGateway implements EmailGateway {
     }
 
     @Override
-    public void send(String recipient, String subject, String body) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromAddress);
-        message.setTo(recipient);
-        message.setSubject(subject);
-        message.setText(body);
-        mailSender.send(message);
+    public void send(String recipient, String subject, String body, boolean isHtml) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            helper.setFrom(fromAddress);
+            helper.setTo(recipient);
+            helper.setSubject(subject);
+            helper.setText(body, isHtml);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -1,4 +1,7 @@
 /home/eddye/Projects/workspace-invest-alert/dispatcher-service/src/test/java/com/invest/DispatcherServiceApplicationTest.java
+/home/eddye/Projects/workspace-invest-alert/dispatcher-service/src/test/java/com/invest/adapters/email/SmtpEmailGatewayTest.java
+/home/eddye/Projects/workspace-invest-alert/dispatcher-service/src/test/java/com/invest/application/EmailContentBuilderHtmlProperties.java
+/home/eddye/Projects/workspace-invest-alert/dispatcher-service/src/test/java/com/invest/application/EmailContentBuilderHtmlTest.java
 /home/eddye/Projects/workspace-invest-alert/dispatcher-service/src/test/java/com/invest/application/EmailContentBuilderProperties.java
 /home/eddye/Projects/workspace-invest-alert/dispatcher-service/src/test/java/com/invest/application/ProcessAlertNotificationUseCaseImplTest.java
 /home/eddye/Projects/workspace-invest-alert/dispatcher-service/src/test/java/com/invest/application/ProcessAlertNotificationUseCaseProperties.java
